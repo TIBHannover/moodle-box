@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - set-timezone
+    - mariadb
+    - apache
+    - moodle
+  tags:
+    - root-task

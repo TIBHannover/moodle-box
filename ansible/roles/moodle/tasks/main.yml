@@ -1,0 +1,61 @@
+---
+- name: Ensure apt repo packages are present
+  apt:
+    name: ["ca-certificates", "apt-transport-https"]
+  tags:
+  - packages
+  - root-task
+
+- name: add packages.sury.org/php public_key
+  apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+  when: ansible_distribution == 'Debian'
+  tags:
+  - root-task
+
+- name: add repo packages.sury.org/php
+  apt_repository:
+    repo: 'deb https://packages.sury.org/php/ {{ansible_distribution_release}} main'
+    filename: php
+    update_cache: yes
+  when: ansible_distribution == 'Debian'
+  tags:
+  - root-task
+
+- name: php - install base packages
+  apt:
+    name: ["php7.3", "php7.3-intl", "php7.3-mysql", "php7.3-curl", "php7.3-zip", "php7.3-xml", "php7.3-gd"]
+    state: "present"
+  become: yes
+  tags:
+  - packages
+  - root-task
+
+- name: download moodle sources
+  get_url:
+    url: '{{moodle_archive_url}}'
+    dest: "{{download_dir}}/moodle.tar.gz"
+
+- name: extract esrender sources
+  unarchive:
+    remote_src: yes
+    src: '{{download_dir}}/moodle.tar.gz'
+    owner: "www-data"
+    group: "www-data"
+    dest: /var/www
+    creates: /var/www/moodle
+  become: yes
+  notify:
+    - restart apache2
+
+- name: create moodle data-dir
+  file:
+    path: "{{moodle_data_dir}}"
+    state: "directory"
+    owner: "www-data"
+    group: "www-data"
+  notify:
+    - restart apache2
+
+- name: moodle Installation
+  shell: "sudo -u www-data /usr/bin/php7.3 /var/www/moodle/admin/cli/install.php --non-interactive --agree-license --lang=de --wwwroot={{moodle_url}} --dataroot={{moodle_data_dir}} --dbtype=mariadb --dbhost=localhost --dbname={{moodle_db.name}} --dbuser={{moodle_db.user}} --dbpass={{moodle_db.password}} --dbport={{mariadb_port}} --fullname={{moodle_fullname}} --shortname={{moodle_shortname}} --summary={{moodle_summary}} --adminpass={{moodle_admin_password}}"

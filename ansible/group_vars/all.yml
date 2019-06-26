@@ -1,0 +1,17 @@
+---
+moodle_host: 192.168.98.105
+moodle_url: "http://{{moodle_host}}"
+moodle_archive_url: https://download.moodle.org/download.php/direct/stable37/moodle-3.7.tgz
+download_dir: /home/vagrant
+moodle_data_dir: /var/moodledata
+
+moodle_admin_password: asd456
+moodle_fullname: TestFullname
+moodle_shortname: TestShortname
+moodle_summary: TestSummary
+
+mariadb_port: 3306
+moodle_db:
+  name: moodle
+  user: moodle
+  password: moodle
