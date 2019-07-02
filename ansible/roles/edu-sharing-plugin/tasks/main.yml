@@ -1,0 +1,43 @@
+---
+  - name: php - install base packages
+    apt:
+      name: ["php7.3-soap"]
+      state: "present"
+    become: yes
+    tags:
+    - packages
+    - root-task
+
+  - name: download edu-sharing-plugin sources
+    get_url:
+      url: '{{edusharing_plugin_url}}'
+      dest: "{{download_dir}}/edu-sharing-plugin.tar.gz"
+
+  - name: extract edu-sharing-plugin sources
+    unarchive:
+      remote_src: yes
+      src: '{{download_dir}}/edu-sharing-plugin.tar.gz'
+      owner: "www-data"
+      group: "www-data"
+      dest: '{{moodle_root_dir}}/moodle'
+      extra_opts: [--strip-components=1]
+    become: yes
+    notify:
+      - restart apache2
+
+# Installation via Browser mit Anmeldung, ganz viel Klicki-Bunti => schlecht geskriptet zu lösen
+#  - name: edu-sharing-plugin installation
+#    uri:
+#      url: 'http://{{moodle_host}}/admin/index.php?confirmplugincheck=1&cache=0'
+#
+#  - name: edu-sharing-plugin configuration
+#    uri:
+#      url: 'http://{{moodle_host}}/mod/edusharing/import_metadata.php'
+#      user: "{{ moodle_admin_user }}"
+#      password: "{{ moodle_admin_password }}"
+#      force_basic_auth: yes
+#      method: POST
+#      body_format: form-urlencoded
+#      body:
+#        mdataurl:	http://{{edu-sharing-host}}/edu-sharing/metadata?format=lms
+#

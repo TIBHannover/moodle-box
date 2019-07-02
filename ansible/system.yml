@@ -6,5 +6,6 @@
     - mariadb
     - apache
     - moodle
+    - edu-sharing-plugin
   tags:
     - root-task

@@ -36,14 +36,14 @@
     url: '{{moodle_archive_url}}'
     dest: "{{download_dir}}/moodle.tar.gz"
 
-- name: extract esrender sources
+- name: extract moodle sources
   unarchive:
     remote_src: yes
     src: '{{download_dir}}/moodle.tar.gz'
     owner: "www-data"
     group: "www-data"
-    dest: /var/www
-    creates: /var/www/moodle
+    dest: '{{moodle_root_dir}}'
+    creates: '{{moodle_root_dir}}/moodle'
   become: yes
   notify:
     - restart apache2
@@ -58,4 +58,4 @@
     - restart apache2
 
 - name: moodle Installation
-  shell: "sudo -u www-data /usr/bin/php7.3 /var/www/moodle/admin/cli/install.php --non-interactive --agree-license --lang=de --wwwroot={{moodle_url}} --dataroot={{moodle_data_dir}} --dbtype=mariadb --dbhost=localhost --dbname={{moodle_db.name}} --dbuser={{moodle_db.user}} --dbpass={{moodle_db.password}} --dbport={{mariadb_port}} --fullname={{moodle_fullname}} --shortname={{moodle_shortname}} --summary={{moodle_summary}} --adminpass={{moodle_admin_password}}"
+  shell: "sudo -u www-data /usr/bin/php7.3 {{moodle_root_dir}}/moodle/admin/cli/install.php --non-interactive --agree-license --lang=de --wwwroot={{moodle_url}} --dataroot={{moodle_data_dir}} --dbtype=mariadb --dbhost=localhost --dbname={{moodle_db.name}} --dbuser={{moodle_db.user}} --dbpass={{moodle_db.password}} --dbport={{mariadb_port}} --fullname={{moodle_fullname}} --shortname={{moodle_shortname}} --summary={{moodle_summary}} --adminuser={{moodle_admin_user}} --adminpass={{moodle_admin_password}} --adminemail={{moodle_admin_email}}"

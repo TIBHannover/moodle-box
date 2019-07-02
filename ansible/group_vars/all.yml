@@ -4,8 +4,12 @@ moodle_url: "http://{{moodle_host}}"
 moodle_archive_url: https://download.moodle.org/download.php/direct/stable37/moodle-3.7.tgz
 download_dir: /home/vagrant
 moodle_data_dir: /var/moodledata
+moodle_root_dir: /var/www
 
+moodle_admin_user: admin
 moodle_admin_password: asd456
+moodle_admin_email: ab@c.de
+
 moodle_fullname: TestFullname
 moodle_shortname: TestShortname
 moodle_summary: TestSummary
@@ -15,3 +19,5 @@ moodle_db:
   name: moodle
   user: moodle
   password: moodle
+
+edusharing_plugin_url: https://github.com/edu-sharing/plugin-moodle/archive/4.1.2.tar.gz
