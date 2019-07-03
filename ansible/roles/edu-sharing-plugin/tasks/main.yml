@@ -1,14 +1,4 @@
 ---
-  - name: php - install base packages
-    apt:
-      name: ["php7.3-soap"]
-      state: "present"
-    become: yes
-    tags:
-    - packages
-    - root-task
-    - edu-sharing-plugin
-
   - name: download edu-sharing-plugin sources
     get_url:
       url: '{{edusharing_plugin_url}}'
