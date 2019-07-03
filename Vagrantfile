@@ -16,11 +16,11 @@ Vagrant.configure("2") do |config|
     end
   end
 
-#  config.vm.provision "ansible_local" do |ansible|
-#    ansible.install = true
-#    ansible.install_mode = "pip"
-#    ansible.version = "latest"
-  config.vm.provision "ansible" do |ansible|
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.install = true
+    ansible.install_mode = "pip"
+    ansible.version = "latest"
+#  config.vm.provision "ansible" do |ansible|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = "ansible/system.yml"
     ansible.groups = {
@@ -29,5 +29,7 @@ Vagrant.configure("2") do |config|
         "timezone" => "Europe/Berlin"
       }
     }
+    # comment/uncomment next line to activate/deavtivate pre-installation of edu-sharing-plugin (=> has to be finished manually, see README)
+    ansible.skip_tags = [ "edu-sharing-plugin" ]
   end
 end

@@ -7,11 +7,14 @@
     tags:
     - packages
     - root-task
+    - edu-sharing-plugin
 
   - name: download edu-sharing-plugin sources
     get_url:
       url: '{{edusharing_plugin_url}}'
       dest: "{{download_dir}}/edu-sharing-plugin.tar.gz"
+    tags:
+    - edu-sharing-plugin
 
   - name: extract edu-sharing-plugin sources
     unarchive:
@@ -24,6 +27,9 @@
     become: yes
     notify:
       - restart apache2
+    tags:
+    - root-task
+    - edu-sharing-plugin
 
 # Installation via Browser mit Anmeldung, ganz viel Klicki-Bunti => schlecht geskriptet zu lösen
 #  - name: edu-sharing-plugin installation

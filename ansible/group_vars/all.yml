@@ -10,9 +10,9 @@ moodle_admin_user: admin
 moodle_admin_password: asd456
 moodle_admin_email: ab@c.de
 
-moodle_fullname: TestFullname
-moodle_shortname: TestShortname
-moodle_summary: TestSummary
+moodle_fullname: "Moodle-Test-BOX"
+moodle_shortname: "moodle-box"
+moodle_summary: "Eine_virtuelle_Box_um_Moodle_zu_testen."
 
 mariadb_port: 3306
 moodle_db:
