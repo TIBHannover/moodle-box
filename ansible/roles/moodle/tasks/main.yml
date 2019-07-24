@@ -31,6 +31,9 @@
   - packages
   - root-task
 
+- name: Ensures download dir exists
+  file: path={{download_dir}}/ state=directory
+
 - name: download moodle sources
   get_url:
     url: '{{moodle_archive_url}}'
