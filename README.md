@@ -9,7 +9,7 @@ Soll die moodle-box mit edu-sharing verknüpft werden, dann im Vagrantfile den E
 
 Die folgenden Schritte im Terminal (Linux/macOS) oder in der GitBash (Windows) ausführen.
 ```
-git clone https://git.tib.eu/boxes/moodle-box.git
+git clone https://github.com/TIBHannover/moodle-box.git
 cd moodle-box
 vagrant up
 ```
