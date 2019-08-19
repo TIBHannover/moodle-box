@@ -47,3 +47,8 @@ vagrant ssh
         ```
         http://<moodle_host>/mod/edusharing/metadata.php
         ```
+
+## Moodle Mobile App Zugriff aktivieren
+
+* Einloggen als Administrator
+* Website-Administration > Mobile App > Mobile Einstellungen > Webservice für mobile Endgeräte aktivieren
