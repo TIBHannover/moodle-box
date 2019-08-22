@@ -3,6 +3,8 @@
 Dieses Projekt bietet die Möglichkeit, ein moodle mit minimalem Aufwand in einer virtuellen Maschine aufzusetzen. Voraussetzung ist die Installation von
 [Git](https://git-scm.com/downloads),  [Vagrant](https://www.vagrantup.com/downloads.html) und [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
 
+Außerdem kann die Moodle-Instanz mit einem edu-sharing Repositorium verbunden werden. Siehe hierfür [Edu-Sharing-Integration](#edu-sharing-integration).
+
 ## Installation
 
 Soll die moodle-box mit edu-sharing verknüpft werden, dann im Vagrantfile den Eintrag "ansible.skip_tags = [ "edu-sharing-plugin" ]" entfernen/einkommentieren.
@@ -52,3 +54,12 @@ vagrant ssh
 
 * Einloggen als Administrator
 * Website-Administration > Mobile App > Mobile Einstellungen > Webservice für mobile Endgeräte aktivieren
+
+## Edu-Sharing-Integration
+
+- zunächst Edu-Sharing-Box wie in [Installation](https://github.com/TIBHannover/edu-sharing-box) geschildert installieren
+- falls die Moodle-Box bereits installiert wurde, im Vagrantfile den Eintrag `ansible.skip_tags = [ "edu-sharing-plugin" ]` auskommentieren, damit die nötigen Plugins installiert werden können
+- im moodle-box Verzeichnis den Befehl `vagrant reload --provision` ausführen
+- anschließend im Vagrantfile der Edu-Sharing-Box die Auskommentierung von `ansible.skip_tags = [ "moodle-registration" ]` entfernen
+- im edu-sharing-box-Verzeichnis den Befehl `vagrant reload --provision`ausführen
+- nun sollte in moodle eine Einbindung des edu-sharing Repositoriums erfolgt sein
