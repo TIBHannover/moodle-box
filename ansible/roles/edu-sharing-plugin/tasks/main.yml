@@ -27,7 +27,6 @@
     url: "{{ edusharing_plugin_url }}"
     dest: "{{ download_dir }}/es_plugin_moodle.tar.gz"
   become: yes
-  become_user: "{{ansible_user}}"
 
 - name: Ensure unzip is present
   package:
@@ -44,7 +43,6 @@
     dest: "{{ download_dir }}"
     creates: "{{ edu_sharing_plugin_dir }}"
   become: yes
-  become_user: "{{ansible_user}}"
   tags:
     - copy-moodle-es-plugin
 
@@ -253,7 +251,7 @@
       - {name: application_appid, set: moodle_plugin}
       - {name: application_blowfishiv, set: initvect}
       - {name: application_blowfishkey, set: thetestkey}
-      - {name: application_cc_gui_url, set: "http://{{ edu_sharing_base_domain }}:80/edu-sharing/"}
+      - {name: application_cc_gui_url, set: "{{ edu_sharing_base_domain }}:80/edu-sharing/"}
       - {name: application_homerepid, set: "{{ esrepo_appid.matches[0]['entry'] }}"}
       - {name: application_host, set: "{{ moodle_host }}"}
       - {name: application_private_key, set: "{{ moodle_priv_key.stdout }}"}
@@ -276,7 +274,7 @@
       - {name: repository_clientport, set: "{{ esrepo_clientport.matches[0]['entry'] }}"}
       - {name: repository_clientprotocol, set: "{{ esrepo_clientprotocol.matches[0]['entry'] }}"}
       - {name: repository_contenturl, set: "{{ esrepo_contenturl.matches[0]['entry'] }}"}
-      - {name: repository_domain, set: "http://{{ edu_sharing_base_domain }}"}
+      - {name: repository_domain, set: "{{ edu_sharing_base_domain }}"}
       - {name: repository_host, set: "{{ edu_sharing_host }}"}
       - {name: repository_port, set: "{{ esrepo_port.matches[0]['entry'] }}"}
       - {name: repository_protocol, set: "{{  esrepo_protocol.matches[0]['entry'] }}"}
@@ -319,7 +317,6 @@
     chdir: '{{ moodle_root_dir }}/moodle/admin/cli'
   register: attoconfig
 
-# TODO Check if atto config gets set correct
 - name: Edit atto_editor
   command: >-
     sudo -u www-data
@@ -349,11 +346,14 @@
     state: link
   become: yes
 
+  # when working with edu-sharing v4.2 *atto-editor is recommended*
+  # it can be used by setting "texteditors atto,edusharing,tinymce,textarea"
+  # but it can also be activated later in moodle admin area
 - name: Set text editors
   command: >-
     sudo -u www-data
     moosh config-set 
-    texteditors atto,edusharing,tinymce,textarea
+    texteditors edusharing,atto,tinymce,textarea
   args:
     chdir: '{{ moodle_root_dir }}/moodle'
 
