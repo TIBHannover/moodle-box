@@ -59,6 +59,7 @@ vagrant ssh
 
 - zunächst Edu-Sharing-Box wie in [Installation](https://github.com/TIBHannover/edu-sharing-box) geschildert installieren
 - falls die Moodle-Box bereits installiert wurde, im Vagrantfile den Eintrag `ansible.skip_tags = [ "edu-sharing-plugin" ]` auskommentieren, damit die nötigen Plugins installiert werden können
+- falls die Edu-Sharing Version v4.2 installiert wurde in group_vars/all.yml `edusharing_plugin_url` und `edusharing_plugin_dir` entsprechend anpassen
 - im moodle-box Verzeichnis den Befehl `vagrant reload --provision` ausführen
 - anschließend im Vagrantfile der Edu-Sharing-Box die Auskommentierung von `ansible.skip_tags = [ "moodle-registration" ]` entfernen
 - im edu-sharing-box-Verzeichnis den Befehl `vagrant reload --provision`ausführen
