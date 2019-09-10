@@ -373,26 +373,27 @@
 # with `moosh filter-set` insert edusharing into the table
 # and then reactivate. This way edusharing also gets sortorder 1
 
-- name: Set filter mathjaxloader to -9999
+- name: Select all active filters
   command: >-
     sudo -u www-data
-    moosh filter-set mathjaxloader -9999
+    moosh sql-run 
+    "select filter from mdl_filter_active where active=1 order by sortorder"
   args:
     chdir: '{{ moodle_root_dir }}/moodle'
+  register: active_filters_query_result
 
-- name: Set filter activitynames to -9999
-  command: >-
-    sudo -u www-data
-    moosh filter-set activitynames -9999
-  args:
-    chdir: '{{ moodle_root_dir }}/moodle'
+- set_fact:
+    active_filters: "{{ active_filters_query_result.stdout | regex_findall(regexp,'\\1') }}"
+  vars:
+    regexp: '\[filter\] => (.+)'
 
-- name: Set filter mediaplugin to -9999
+- name: Set active filter to -9999
   command: >-
     sudo -u www-data
-    moosh filter-set mediaplugin -9999
+    moosh filter-set "{{item}}" -9999
   args:
     chdir: '{{ moodle_root_dir }}/moodle'
+  with_items: '{{active_filters}}'
 
 - name: Query the database to see if edusharing is already enabled
   command: >-
@@ -410,31 +411,18 @@
   command: >-
     sudo -u www-data
     moosh sql-run 
-    "insert into mdl_filter_active(id, filter, contextid, active, sortorder) values (4, 'edusharing', 1, 1, 4)"
+    "insert into mdl_filter_active(filter, contextid, active, sortorder) values ('edusharing', 1, 1, 4)"
   args:
     chdir: '{{ moodle_root_dir }}/moodle'
   when: '"edusharing" not in mdl_filter_active.stdout'
 
-- name: Set filter mathjaxloader to 1
+- name: Set active filter to 1
   command: >-
     sudo -u www-data
-    moosh filter-set mathjaxloader 1
+    moosh filter-set "{{item}}" 1
   args:
     chdir: '{{ moodle_root_dir }}/moodle'
-
-- name: Set filter activitynames to 1
-  command: >-
-    sudo -u www-data
-    moosh filter-set activitynames 1
-  args:
-    chdir: '{{ moodle_root_dir }}/moodle'
-
-- name: Set filter mediaplugin to 1
-  command: >-
-    sudo -u www-data
-    moosh filter-set mediaplugin 1
-  args:
-    chdir: '{{ moodle_root_dir }}/moodle'
+  with_items: '{{active_filters}}'
 
 - name: Upgrade php
   command: >-
