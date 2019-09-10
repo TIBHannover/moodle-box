@@ -60,5 +60,34 @@
   notify:
     - restart apache2
 
+- name: Check if Moodle is installed
+  stat:
+    path: "{{ moodle_root_dir }}/moodle/config.php"
+  register: moodle_installed
+
 - name: moodle Installation
-  shell: "sudo -u www-data /usr/bin/php7.3 {{moodle_root_dir}}/moodle/admin/cli/install.php --non-interactive --agree-license --lang=de --wwwroot={{moodle_url}} --dataroot={{moodle_data_dir}} --dbtype=mariadb --dbhost=localhost --dbname={{moodle_db.name}} --dbuser={{moodle_db.user}} --dbpass={{moodle_db.password}} --dbport={{mariadb_port}} --fullname={{moodle_fullname}} --shortname={{moodle_shortname}} --summary={{moodle_summary}} --adminuser={{moodle_admin_user}} --adminpass={{moodle_admin_password}} --adminemail={{moodle_admin_email}}"
+  shell: >-
+    sudo -u www-data 
+    /usr/bin/php7.3 install.php 
+    --non-interactive 
+    --agree-license 
+    --lang=de 
+    --wwwroot={{moodle_url}} 
+    --dataroot={{moodle_data_dir}} 
+    --dbtype=mariadb 
+    --dbhost=localhost 
+    --dbname={{moodle_db.name}}
+    --dbuser={{moodle_db.user}} 
+    --dbpass={{moodle_db.password}} 
+    --dbport={{mariadb_port}} 
+    --fullname={{moodle_fullname}} 
+    --shortname={{moodle_shortname}} 
+    --summary={{moodle_summary}} 
+    --adminuser={{moodle_admin_user}} 
+    --adminpass={{moodle_admin_password}} 
+    --adminemail={{moodle_admin_email}}
+  args:
+    chdir: "{{moodle_root_dir}}/moodle/admin/cli/"
+  when: not moodle_installed.stat.exists
+  # become: yes
+  # become_user: www-data

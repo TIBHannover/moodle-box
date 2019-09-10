@@ -6,6 +6,12 @@
     - mariadb
     - apache
     - moodle
-    - edu-sharing-plugin
   tags:
     - root-task
+
+- hosts: moodle
+  become: yes
+  roles:
+    - edu-sharing-plugin
+  tags:
+    - edu-sharing-plugin
