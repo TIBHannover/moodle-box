@@ -245,6 +245,14 @@
     content: 'text'
   register: esrepo_usagewebservice
 
+- name: "get info about esrepo"
+  uri:
+    url: '{{ edu_sharing_url }}/rest/_about'
+    headers:
+      Accept: 'application/json'
+    return_content: yes
+  register: esrepo_about
+
 - name: Register edusharing in moodle
   vars:
     esrepo_register_settings:
@@ -282,8 +290,7 @@
       - {name: repository_type, set: "{{ esrepo_type.matches[0]['entry'] }}"}
       - {name: repository_usagewebservice, set: "{{ esrepo_usagewebservice.matches[0]['entry'] }}"}
       - {name: repository_usagewebservice_wsdl, set: "{{ esrepo_usagewebservice_wsdl.matches[0]['entry'] }}"}
-      # TODO get correct esrepo version
-      - {name: repository_version, set: 4.2}
+      - {name: repository_version, set: "{{ esrepo_about.json.version.repository }}"}
   command: >-
     sudo -u www-data
     php cfg.php --component=edusharing
