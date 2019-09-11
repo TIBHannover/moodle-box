@@ -24,6 +24,7 @@ moodle_db:
   user: moodle
   password: moodle
 
+install_edu_sharing_plugin: false
 edu_sharing_host: 192.168.98.101
 edu_sharing_base_domain: http://192.168.98.101
 edu_sharing_url: "{{ edu_sharing_base_domain }}/edu-sharing"

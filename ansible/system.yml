@@ -12,6 +12,7 @@
 - hosts: moodle
   become: yes
   roles:
-    - edu-sharing-plugin
+    - role: edu-sharing-plugin
+      when: install_edu_sharing_plugin
   tags:
     - edu-sharing-plugin
