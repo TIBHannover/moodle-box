@@ -35,7 +35,7 @@ vagrant ssh
 
 - zunächst Edu-Sharing-Box wie in [Installation](https://github.com/TIBHannover/edu-sharing-box) geschildert installieren
 - falls die Moodle-Box bereits installiert wurde, in _group_vars/all.yml_ den Eintrag `install_edu_sharing_plugin` auf `true` setzen, damit die nötigen Plugins installiert werden können
-- falls die Edu-Sharing Version v4.2 installiert wurde in _group_vars/all.yml_ `edusharing_plugin_url` und `edusharing_plugin_dir` entsprechend anpassen
+- die Edu-Sharing Version in _group_vars/all.yml_ `edusharing_plugin_url` und `edusharing_plugin_dir` ggf. entsprechend anpassen
 - im moodle-box Verzeichnis den Befehl `vagrant reload --provision` ausführen
 - anschließend in der Datei _group_vars/edusharing.yml_ der Edu-Sharing-Box den Eintrag `register_moodle` auf `true` setzen
 - im edu-sharing-box-Verzeichnis den Befehl `vagrant reload --provision`ausführen
