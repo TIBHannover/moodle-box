@@ -341,8 +341,6 @@
   unarchive:
     src: https://moodle.org/plugins/download.php/19211/moosh_moodle36_2019032200.zip
     dest: "{{ download_dir }}"
-    owner: '{{ ansible_user }}'
-    group: '{{ ansible_user }}'
     mode: '1775'
     remote_src: yes
 
