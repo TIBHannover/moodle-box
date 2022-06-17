@@ -42,6 +42,8 @@
     collation: 'utf8mb4_bin'
     config_file: /etc/mysql/mariadb.conf.d/moodle-changes.cnf
     state: present
+    login_user: root
+    login_password: '{{ mariadb_root_pw }}'
   become: yes
   tags:
   - root-task
@@ -51,6 +53,8 @@
     name: '{{moodle_db.user}}'
     password: '{{moodle_db.password}}'
     priv: '{{moodle_db.name}}.*:ALL'
+    login_user: root
+    login_password: '{{ mariadb_root_pw }}'
   become: yes
   tags:
   - root-task

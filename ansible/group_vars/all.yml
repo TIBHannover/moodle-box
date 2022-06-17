@@ -16,6 +16,7 @@ moodle_shortname: "moodle-box"
 moodle_summary: "Eine_virtuelle_Box_um_Moodle_zu_testen."
 
 mariadb_port: 3306
+mariadb_root_pw: xxx
 moodle_db:
   name: moodle
   user: moodle
