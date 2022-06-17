@@ -1,7 +1,7 @@
 ---
 moodle_host: 192.168.98.105
 moodle_url: "http://{{moodle_host}}"
-moodle_archive_url: https://download.moodle.org/download.php/direct/stable39/moodle-3.9.4.tgz
+moodle_archive_url: https://download.moodle.org/download.php/direct/stable400/moodle-4.0.1.tgz
 download_dir: /home/vagrant
 
 moodle_data_dir: /var/moodledata
