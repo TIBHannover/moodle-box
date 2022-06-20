@@ -65,6 +65,13 @@
     path: "{{ moodle_root_dir }}/moodle/config.php"
   register: moodle_installed
 
+- name: Ensure sudo is present
+  apt:
+    name: ["sudo"]
+  tags:
+  - packages
+  - root-task
+
 - name: moodle Installation
   shell: >-
     sudo -u www-data 
